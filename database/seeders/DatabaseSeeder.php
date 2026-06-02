@@ -16,7 +16,6 @@ final class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $admin = User::factory()->create([
-            'name' => config('app.default_user.name'),
             'email' => config('app.default_user.email'),
             'username' => config('app.default_user.email'),
             'password' => bcrypt(config('app.default_user.password')),

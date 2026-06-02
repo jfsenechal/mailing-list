@@ -9,7 +9,6 @@ use function Pest\Laravel\assertDatabaseHas;
 
 it('creates a user from options', function (): void {
     $this->artisan('app:create-user', [
-        '--name' => 'Jane Doe',
         '--first-name' => 'Jane',
         '--last-name' => 'Doe',
         '--username' => 'janedoe',
@@ -19,7 +18,6 @@ it('creates a user from options', function (): void {
     ])->assertSuccessful();
 
     assertDatabaseHas(User::class, [
-        'name' => 'Jane Doe',
         'first_name' => 'Jane',
         'last_name' => 'Doe',
         'username' => 'janedoe',
@@ -30,7 +28,6 @@ it('creates a user from options', function (): void {
 
 it('rejects an invalid role', function (): void {
     $this->artisan('app:create-user', [
-        '--name' => 'Jane Doe',
         '--first-name' => '',
         '--last-name' => '',
         '--username' => '',
@@ -44,7 +41,6 @@ it('rejects an invalid role', function (): void {
 
 it('rejects a password shorter than 12 characters', function (): void {
     $this->artisan('app:create-user', [
-        '--name' => 'Jane Doe',
         '--first-name' => '',
         '--last-name' => '',
         '--username' => '',
@@ -60,7 +56,6 @@ it('rejects a duplicate email', function (): void {
     User::factory()->create(['email' => 'taken@example.com']);
 
     $this->artisan('app:create-user', [
-        '--name' => 'Jane Doe',
         '--first-name' => '',
         '--last-name' => '',
         '--username' => '',

@@ -24,6 +24,10 @@ final class UserForm
                     ->label('Prénom')
                     ->maxLength(255)
                     ->required(),
+                TextInput::make('username')
+                    ->label('Nom d\'utilisateur')
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
                 TextInput::make('email')
                     ->maxLength(255)
                     ->unique()
@@ -31,12 +35,12 @@ final class UserForm
                     ->required(),
                 TextInput::make('password')
                     ->password()
-                    ->required(fn($livewire): bool => $livewire instanceof CreateUser)
+                    ->required(fn ($livewire): bool => $livewire instanceof CreateUser)
                     ->revealable(filament()->arePasswordsRevealable())
                     ->rule(Password::default())
                     ->autocomplete('new-password')
-                    ->dehydrated(fn($state): bool => filled($state))
-                    ->dehydrateStateUsing(fn($state): string => Hash::make($state)),
+                    ->dehydrated(fn ($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state)),
             ]);
     }
 }

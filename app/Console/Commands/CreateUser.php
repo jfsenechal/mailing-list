@@ -19,7 +19,6 @@ use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 #[Signature('app:create-user
-    {--name= : The display name of the user}
     {--first-name= : The first name of the user}
     {--last-name= : The last name of the user}
     {--username= : The username of the user}
@@ -34,11 +33,6 @@ final class CreateUser extends Command
      */
     public function handle(): int
     {
-        $name = $this->option('name') ?? text(
-            label: 'Name',
-            required: true,
-        );
-
         $firstName = $this->option('first-name') ?? text(label: 'First name');
         $lastName = $this->option('last-name') ?? text(label: 'Last name');
         $username = $this->option('username') ?? text(label: 'Username');
@@ -62,7 +56,6 @@ final class CreateUser extends Command
         );
 
         $validator = Validator::make([
-            'name' => $name,
             'first_name' => $firstName,
             'last_name' => $lastName,
             'username' => $username,
@@ -70,7 +63,6 @@ final class CreateUser extends Command
             'password' => $password,
             'role' => $role,
         ], [
-            'name' => ['required', 'string', 'max:255'],
             'first_name' => ['nullable', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'],
             'username' => ['nullable', 'string', 'max:255'],
@@ -88,7 +80,6 @@ final class CreateUser extends Command
         }
 
         $user = User::create([
-            'name' => $name,
             'first_name' => $firstName ?: null,
             'last_name' => $lastName ?: null,
             'username' => $username ?: null,

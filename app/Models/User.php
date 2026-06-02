@@ -20,7 +20,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 
 #[Fillable([
-    'name',
     'first_name',
     'last_name',
     'username',
