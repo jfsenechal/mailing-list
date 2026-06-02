@@ -11,7 +11,6 @@ use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
-use Illuminate\Support\HtmlString;
 use Throwable;
 
 final class TestSmtpAction
@@ -36,7 +35,7 @@ final class TestSmtpAction
 
                 $notification = Notification::make()
                     ->title($log['success'] ? 'Test SMTP réussi' : 'Échec du test SMTP')
-                    ->body(new HtmlString(nl2br(e(implode(PHP_EOL, $log['lines'])))))
+                    ->body(nl2br(e(implode(PHP_EOL, $log['lines']))))
                     ->persistent();
 
                 $log['success']
