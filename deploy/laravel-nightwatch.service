@@ -1,0 +1,15 @@
+[Unit]
+Description=Laravel Nightwatch Agent (mailing-lists)
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+Restart=always
+RestartSec=5
+WorkingDirectory=/var/www/mailing-lists
+
+ExecStart=/usr/bin/php artisan nightwatch:agent
+
+[Install]
+WantedBy=multi-user.target
