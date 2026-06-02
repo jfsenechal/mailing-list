@@ -6,12 +6,14 @@ namespace App\Models;
 
 use App\Repositories\OwnerScope;
 use Database\Factories\SenderFactory;
+use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Mail;
 
 #[UseFactory(SenderFactory::class)]
 #[ScopedBy(OwnerScope::class)]
@@ -35,6 +37,33 @@ final class Sender extends Model
     public function hasSmtpSettings(): bool
     {
         return filled($this->smtp_host) && filled($this->smtp_username) && filled($this->smtp_password);
+    }
+
+    /**
+     * Resolve the mailer to use for this sender, configuring a dedicated SMTP
+     * mailer from the sender's own settings when they are available, otherwise
+     * falling back to the application's default mailer.
+     */
+    public function resolveMailer(): Mailer
+    {
+        if (! $this->hasSmtpSettings()) {
+            return Mail::mailer(config('mail.default'));
+        }
+
+        $mailerName = 'sender_'.$this->id;
+
+        config([
+            "mail.mailers.{$mailerName}" => [
+                'transport' => 'smtp',
+                'host' => $this->smtp_host,
+                'port' => $this->smtp_port ?? 587,
+                'username' => $this->smtp_username,
+                'password' => $this->smtp_password,
+                'encryption' => 'tls',
+            ],
+        ]);
+
+        return Mail::mailer($mailerName);
     }
 
     /**

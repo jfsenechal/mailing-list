@@ -10,7 +10,6 @@ use App\Models\Email;
 use App\Models\EmailRecipient;
 use App\Models\Sender;
 use Illuminate\Bus\Batchable;
-use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Mail;
@@ -32,7 +31,13 @@ final class SendEmailJob implements ShouldQueue
         }
 
         try {
-            $this->resolveMailer()
+            $sender = $this->email->sender ?? $this->email->load('sender')->sender;
+
+            $mailer = $sender instanceof Sender
+                ? $sender->resolveMailer()
+                : Mail::mailer(config('mail.default'));
+
+            $mailer
                 ->to($this->recipient->email_address)
                 ->send(new NewsletterMail($this->email, $this->recipient));
 
@@ -50,29 +55,5 @@ final class SendEmailJob implements ShouldQueue
 
             throw $e;
         }
-    }
-
-    private function resolveMailer(): Mailer
-    {
-        $sender = $this->email->sender ?? $this->email->load('sender')->sender;
-
-        if ($sender instanceof Sender && $sender->hasSmtpSettings()) {
-            $mailerName = 'sender_'.$sender->id;
-
-            config([
-                "mail.mailers.{$mailerName}" => [
-                    'transport' => 'smtp',
-                    'host' => $sender->smtp_host,
-                    'port' => $sender->smtp_port ?? 587,
-                    'username' => $sender->smtp_username,
-                    'password' => $sender->smtp_password,
-                    'encryption' => 'tls',
-                ],
-            ]);
-
-            return Mail::mailer($mailerName);
-        }
-
-        return Mail::mailer(config('mail.default'));
     }
 }

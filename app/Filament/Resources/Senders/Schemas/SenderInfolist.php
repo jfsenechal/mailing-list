@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Senders\Schemas;
 
+use App\Filament\Actions\TestSmtpAction;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -44,6 +45,10 @@ final class SenderInfolist
                 ])->from('md')
                     ->columnSpanFull(),
                 Section::make('Configuration SMTP')
+                    ->key('smtpConfiguration')
+                    ->afterHeader([
+                        TestSmtpAction::make(),
+                    ])
                     ->schema([
                         Flex::make([
                             TextEntry::make('smtp_host')
