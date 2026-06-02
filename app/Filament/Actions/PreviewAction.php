@@ -6,6 +6,7 @@ namespace App\Filament\Actions;
 
 use App\Mail\NewsletterMail;
 use App\Models\Email;
+use App\Models\EmailRecipient;
 use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -32,8 +33,13 @@ final class PreviewAction
             ->action(function (array $data) use ($record): void {
                 $record->load('sender');
 
+                $recipient = new EmailRecipient([
+                    'email_address' => $data['email'],
+                    'name' => 'Apercu',
+                ]);
+
                 Mail::to($data['email'])
-                    ->send(new NewsletterMail($record, 'Apercu'));
+                    ->send(new NewsletterMail($record, $recipient));
 
                 Notification::make()
                     ->title('Apercu envoyé')
