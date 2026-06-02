@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Senders;
 use App\Filament\Resources\Senders\Pages\CreateSender;
 use App\Filament\Resources\Senders\Pages\EditSender;
 use App\Filament\Resources\Senders\Pages\ListSenders;
+use App\Filament\Resources\Senders\Pages\ViewSender;
 use App\Filament\Resources\Senders\Schemas\SenderForm;
 use App\Filament\Resources\Senders\Tables\SendersTable;
 use App\Models\Sender;
@@ -70,6 +71,7 @@ final class SenderResource extends Resource
         return [
             'index' => ListSenders::route('/'),
             'create' => CreateSender::route('/create'),
+            'view' => ViewSender::route('/{record}'),
             'edit' => EditSender::route('/{record}/edit'),
         ];
     }
