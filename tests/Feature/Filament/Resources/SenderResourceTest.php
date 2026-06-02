@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Filament\Resources\Senders\Pages\CreateSender;
+use App\Filament\Resources\Senders\Pages\EditSender;
 use App\Filament\Resources\Senders\Pages\ViewSender;
 use App\Models\Sender;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Livewire\livewire;
 
 it('can render the view page', function () {
@@ -31,3 +34,83 @@ it('hides senders owned by another user from the view page', function () {
         'record' => $sender->id,
     ]);
 })->throws(ModelNotFoundException::class);
+
+it('can create a sender with smtp settings', function () {
+    livewire(CreateSender::class)
+        ->fillForm([
+            'name' => 'Service Communication',
+            'email' => 'communication@marche.be',
+            'smtp_host' => 'smtp.marche.be',
+            'smtp_port' => 587,
+            'smtp_username' => 'communication@marche.be',
+            'smtp_password' => 'secret-password',
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    assertDatabaseHas(Sender::class, [
+        'name' => 'Service Communication',
+        'email' => 'communication@marche.be',
+        'smtp_host' => 'smtp.marche.be',
+        'smtp_port' => 587,
+        'smtp_username' => 'communication@marche.be',
+    ]);
+});
+
+it('encrypts the smtp password in the database', function () {
+    $sender = Sender::factory()->create([
+        'username' => auth()->user()->username,
+        'smtp_host' => 'smtp.marche.be',
+        'smtp_username' => 'user@marche.be',
+        'smtp_password' => 'plain-text-secret',
+    ]);
+
+    $raw = Illuminate\Support\Facades\DB::table('senders')
+        ->where('id', $sender->id)
+        ->value('smtp_password');
+
+    expect($raw)->not->toBe('plain-text-secret')
+        ->and($sender->fresh()->smtp_password)->toBe('plain-text-secret');
+});
+
+it('detects when smtp settings are configured', function () {
+    $sender = Sender::factory()->create([
+        'username' => auth()->user()->username,
+        'smtp_host' => 'smtp.marche.be',
+        'smtp_username' => 'user@marche.be',
+        'smtp_password' => 'secret',
+    ]);
+
+    expect($sender->hasSmtpSettings())->toBeTrue();
+});
+
+it('detects when smtp settings are missing', function () {
+    $sender = Sender::factory()->create([
+        'username' => auth()->user()->username,
+    ]);
+
+    expect($sender->hasSmtpSettings())->toBeFalse();
+});
+
+it('can update smtp settings on edit page', function () {
+    $sender = Sender::factory()->create([
+        'username' => auth()->user()->username,
+    ]);
+
+    livewire(EditSender::class, ['record' => $sender->id])
+        ->fillForm([
+            'smtp_host' => 'smtp.marche.be',
+            'smtp_port' => 465,
+            'smtp_username' => 'sender@marche.be',
+            'smtp_password' => 'new-password',
+        ])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    assertDatabaseHas(Sender::class, [
+        'id' => $sender->id,
+        'smtp_host' => 'smtp.marche.be',
+        'smtp_port' => 465,
+        'smtp_username' => 'sender@marche.be',
+    ]);
+});

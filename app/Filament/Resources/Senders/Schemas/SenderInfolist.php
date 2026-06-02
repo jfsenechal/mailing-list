@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Senders\Schemas;
 
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Flex;
@@ -41,6 +42,29 @@ final class SenderInfolist
                         ])
                         ->grow(false),
                 ])->from('md')
+                    ->columnSpanFull(),
+                Section::make('Configuration SMTP')
+                    ->schema([
+                        Flex::make([
+                            TextEntry::make('smtp_host')
+                                ->label('Hôte SMTP')
+                                ->placeholder('Configuration globale'),
+                            TextEntry::make('smtp_port')
+                                ->label('Port SMTP')
+                                ->placeholder('—'),
+                            TextEntry::make('smtp_username')
+                                ->label('Identifiant SMTP')
+                                ->placeholder('—'),
+                            IconEntry::make('smtp_password')
+                                ->label('Mot de passe SMTP')
+                                ->state(fn ($record): bool => filled($record->smtp_password))
+                                ->boolean()
+                                ->trueIcon('heroicon-o-lock-closed')
+                                ->falseIcon('heroicon-o-lock-open')
+                                ->trueColor('success')
+                                ->falseColor('gray'),
+                        ]),
+                    ])
                     ->columnSpanFull(),
                 Flex::make([
                     TextEntry::make('created_at')
