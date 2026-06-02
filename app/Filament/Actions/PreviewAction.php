@@ -12,7 +12,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Mail;
 
 final class PreviewAction
 {
@@ -38,7 +37,8 @@ final class PreviewAction
                     'name' => 'Apercu',
                 ]);
 
-                Mail::to($data['email'])
+                $record->sender->resolveMailer()
+                    ->to($data['email'])
                     ->send(new NewsletterMail($record, $recipient));
 
                 Notification::make()
