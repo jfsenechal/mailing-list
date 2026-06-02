@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-01T00:00:00Z",
+  "title": "Design System: Carnets et liste de diffusion",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Signal Blue",
+        "canonical": "oklch(0.623 0.214 259.815)",
+        "tonalRamp": [
+          "oklch(0.379 0.146 265.522)",
+          "oklch(0.424 0.199 265.638)",
+          "oklch(0.488 0.243 264.376)",
+          "oklch(0.546 0.245 262.881)",
+          "oklch(0.623 0.214 259.815)",
+          "oklch(0.707 0.165 254.624)",
+          "oklch(0.809 0.105 251.813)",
+          "oklch(0.932 0.032 255.585)"
+        ]
+      },
+      "success": {
+        "role": "secondary",
+        "displayName": "Dispatch Green",
+        "canonical": "oklch(0.723 0.219 149.579)",
+        "tonalRamp": [
+          "oklch(0.393 0.095 152.535)",
+          "oklch(0.448 0.119 151.328)",
+          "oklch(0.527 0.154 150.069)",
+          "oklch(0.627 0.194 149.214)",
+          "oklch(0.723 0.219 149.579)",
+          "oklch(0.792 0.209 151.711)",
+          "oklch(0.871 0.15 154.449)",
+          "oklch(0.962 0.044 156.743)"
+        ]
+      },
+      "warning": {
+        "role": "secondary",
+        "displayName": "In-Flight Amber",
+        "canonical": "oklch(0.769 0.188 70.08)",
+        "tonalRamp": [
+          "oklch(0.414 0.112 45.904)",
+          "oklch(0.473 0.137 46.201)",
+          "oklch(0.555 0.163 48.998)",
+          "oklch(0.666 0.179 58.318)",
+          "oklch(0.769 0.188 70.08)",
+          "oklch(0.828 0.189 84.429)",
+          "oklch(0.879 0.169 91.605)",
+          "oklch(0.962 0.059 95.617)"
+        ]
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Failure Red",
+        "canonical": "oklch(0.637 0.237 25.331)",
+        "tonalRamp": [
+          "oklch(0.396 0.141 25.723)",
+          "oklch(0.444 0.177 26.899)",
+          "oklch(0.505 0.213 27.518)",
+          "oklch(0.577 0.245 27.325)",
+          "oklch(0.637 0.237 25.331)",
+          "oklch(0.704 0.191 22.216)",
+          "oklch(0.808 0.114 19.571)",
+          "oklch(0.936 0.032 17.717)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.21 0.006 285.885)",
+        "tonalRamp": [
+          "oklch(0.141 0.005 285.823)",
+          "oklch(0.21 0.006 285.885)",
+          "oklch(0.274 0.006 286.033)",
+          "oklch(0.37 0.013 285.805)",
+          "oklch(0.552 0.016 285.938)",
+          "oklch(0.705 0.015 286.067)",
+          "oklch(0.871 0.006 286.286)",
+          "oklch(0.967 0.001 286.375)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page titles; the largest type on a screen." },
+      "headline": { "displayName": "Headline", "purpose": "Section and modal headings." },
+      "title": { "displayName": "Title", "purpose": "Card titles and row emphasis." },
+      "body": { "displayName": "Body", "purpose": "Table cells, field values, modal copy. Cap measure at 65-75ch." },
+      "label": { "displayName": "Label", "purpose": "Field labels, badge text, column headers." }
+    },
+    "shadows": [
+      { "name": "floating", "value": "0 4px 16px oklch(0.21 0.006 286 / 0.10)", "purpose": "Dropdowns, popovers, command palette. Soft ambient lift." },
+      { "name": "modal", "value": "0 16px 48px oklch(0.21 0.006 286 / 0.18)", "purpose": "Confirmation and form dialogs, including the send confirmation." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Default easing for state transitions; exponential ease-out, no bounce." },
+      { "name": "duration-fast", "value": "150ms", "purpose": "Color/border state changes on buttons, inputs, links." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single most important action on a screen.",
+      "html": "<button class=\"ds-btn-primary\">Enregistrer</button>",
+      "css": ".ds-btn-primary { background: oklch(0.623 0.214 259.815); color: oklch(0.994 0.0015 264); font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; padding: 8px 14px; border: none; border-radius: 8px; cursor: pointer; transition: background 150ms cubic-bezier(0.22,1,0.36,1); } .ds-btn-primary:hover { background: oklch(0.546 0.245 262.881); } .ds-btn-primary:focus-visible { outline: 2px solid oklch(0.623 0.214 259.815); outline-offset: 2px; }"
+    },
+    {
+      "name": "Send Button",
+      "kind": "button",
+      "refersTo": "button-send",
+      "description": "The consequential dispatch action. Opens a confirmation stating recipient count; disabled at zero recipients.",
+      "html": "<button class=\"ds-btn-send\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z\"/></svg>Envoyer</button>",
+      "css": ".ds-btn-send { display: inline-flex; align-items: center; gap: 8px; background: oklch(0.723 0.219 149.579); color: oklch(0.994 0.0015 264); font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; padding: 8px 14px; border: none; border-radius: 8px; cursor: pointer; transition: background 150ms cubic-bezier(0.22,1,0.36,1); } .ds-btn-send:hover { background: oklch(0.627 0.194 149.214); } .ds-btn-send:disabled { background: oklch(0.92 0.002 286); color: oklch(0.552 0.016 285.938); cursor: not-allowed; }"
+    },
+    {
+      "name": "Status Badge (Sent)",
+      "kind": "chip",
+      "refersTo": "badge-sent",
+      "description": "EmailStatus badge. Color always paired with a French label and icon; shown here in the 'Envoyé' (Sent) state.",
+      "html": "<span class=\"ds-badge-sent\"><svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-10 5L2 7\"/></svg>Envoyé</span>",
+      "css": ".ds-badge-sent { display: inline-flex; align-items: center; gap: 5px; background: oklch(0.962 0.044 156.743); color: oklch(0.448 0.119 151.328); font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.75rem; font-weight: 500; padding: 2px 8px; border-radius: 6px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Standard form field. Flat surface, hairline border, blue focus ring.",
+      "html": "<input class=\"ds-input\" type=\"email\" placeholder=\"Adresse e-mail\" />",
+      "css": ".ds-input { background: oklch(0.994 0.0015 264); color: oklch(0.21 0.006 285.885); font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; padding: 8px 12px; border: 1px solid oklch(0.92 0.002 286); border-radius: 8px; transition: border-color 150ms cubic-bezier(0.22,1,0.36,1); } .ds-input::placeholder { color: oklch(0.552 0.016 285.938); } .ds-input:focus-visible { outline: none; border-color: oklch(0.623 0.214 259.815); box-shadow: 0 0 0 3px oklch(0.623 0.214 259.815 / 0.18); }"
+    },
+    {
+      "name": "Sidebar Nav Item",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Collapsible left sidebar item. Muted at rest, ink on hover, signal-blue when active.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item ds-nav-item--active\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-10 5L2 7\"/></svg>Emails</a><a class=\"ds-nav-item\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/></svg>Contacts</a></nav>",
+      "css": ".ds-nav { display: flex; flex-direction: column; gap: 2px; padding: 8px; background: oklch(0.994 0.0015 264); border-right: 1px solid oklch(0.92 0.002 286); width: 220px; } .ds-nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; color: oklch(0.552 0.016 285.938); text-decoration: none; transition: color 150ms cubic-bezier(0.22,1,0.36,1), background 150ms cubic-bezier(0.22,1,0.36,1); } .ds-nav-item:hover { color: oklch(0.21 0.006 285.885); background: oklch(0.985 0.0015 264); } .ds-nav-item--active { color: oklch(0.546 0.245 262.881); background: oklch(0.932 0.032 255.585); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Control Room",
+    "overview": "This is an instrument panel, not a marketing surface. Every screen exists so a member of a small association can maintain address books and contacts, compose a newsletter, see exactly who it will reach, and dispatch it once, with full confidence. The visual language is calm and legible: a quiet neutral field where status is always readable at a glance and color appears only where it carries meaning. Blue is the resting 'system nominal' tone; the state colors (green, amber, red) light up only to report what is happening to a campaign. The system is built on Filament v5 and embraces its restrained component vocabulary: flat surfaces layered tonally, a single humanist sans, generous spacing. The one dramatic moment, the irreversible send, is gated behind a confirmation that states the recipient count before it commits.",
+    "keyCharacteristics": [
+      "Calm neutral baseline; color reserved for state and the primary action.",
+      "Flat surfaces, depth from tonal layering and hairline borders, not shadows.",
+      "A single humanist sans (Instrument Sans) across the whole hierarchy.",
+      "State is never color-only: badge color is always paired with a French label.",
+      "The send path shows its consequence (recipient count) before it commits."
+    ],
+    "rules": [
+      { "name": "The Meaning-Only Color Rule", "body": "Color is forbidden as decoration. Every saturated color on screen must report a state, mark the one primary action, or flag a destructive action. If a color is not carrying meaning, it must be neutral.", "section": "colors" },
+      { "name": "The Signal-Blue-At-Rest Rule", "body": "Blue is the calm baseline, not an alarm. Urgency is expressed by amber and red on state, never by flooding the screen with primary.", "section": "colors" },
+      { "name": "The One-Voice Type Rule", "body": "One family does all the work. Never introduce a second display or serif face to create emphasis; raise the weight or the size instead.", "section": "typography" },
+      { "name": "The Flat-At-Rest Rule", "body": "Surfaces are flat at rest. A shadow is a response to a floating state (open menu, open modal), never a default decoration on a card.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep color meaningful: reserve saturated color for status badges, the one primary action, and destructive actions.",
+      "Do pair every status color with its French label and icon; never communicate state by color alone.",
+      "Do gate every irreversible action behind a confirmation that states its consequence before it commits.",
+      "Do keep surfaces flat at rest; reach for shadow only on floating menus and modals.",
+      "Do tint neutrals faintly toward the blue hue and use Ink/Surface instead of pure black or pure white.",
+      "Do maintain a visible 2px Signal Blue focus ring on all interactive elements and respect prefers-reduced-motion."
+    ],
+    "donts": [
+      "Don't build a generic SaaS dashboard: no hero-metric template, no identical icon-heading-text card grids, no gradients standing in for hierarchy.",
+      "Don't drift toward a loud consumer marketing email tool: no busy multi-color screens, mascots, or personality that competes with clarity.",
+      "Don't become a cold enterprise back-office: no sterile all-gray density that intimidates non-technical users.",
+      "Don't use border-left/border-right greater than 1px as a colored accent stripe.",
+      "Don't use gradient text or glassmorphism anywhere.",
+      "Don't use pure #000 or #fff; use Ink and Surface.",
+      "Don't flood a screen with primary blue to signal urgency; that is amber's and red's job, on state only."
+    ]
+  }
+}
